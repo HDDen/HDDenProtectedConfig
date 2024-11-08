@@ -3,7 +3,7 @@
  * Читает / пишет файл в .php-контейнер с защищенным началом
  * Use '...filename.json.php' as path, add .php manually!
  * 
- * 1.0.0
+ * 1.0.1
  */
 class HDDenProtectedConfig{
     private $fileStart = '<?php die(); /*';
@@ -30,7 +30,7 @@ class HDDenProtectedConfig{
      * Read file, decode and return array with it
      * ['content' => '...']
      */
-    public function read($onlycontent = true){
+    public function read($onlycontent = true, $strictJson = false){
 
         $result = [
             'status' => '',
@@ -89,6 +89,14 @@ class HDDenProtectedConfig{
             $result['content'] = null;
             $result['status'] = 'There is error after content extraction';
             $result['type'] = '';
+        } elseif ($result['type'] !== 'json') {
+            $result['content'] = $file;
+            $result['status'] = 'Success, but returned '.$result['type'];
+
+            if ($strictJson){
+                $result['content'] = null;
+                $result['status'] = 'Extracted '.$result['type'].', but we are in strict json mode.';
+            }
         } else {
             $result['content'] = $file;
             $result['status'] = 'Success';
