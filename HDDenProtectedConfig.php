@@ -3,7 +3,7 @@
  * Читает / пишет файл в .php-контейнер с защищенным началом
  * Use '...filename.json.php' as path, add .php manually!
  * 
- * 1.0.1
+ * 1.0.2
  */
 class HDDenProtectedConfig{
     private $fileStart = '<?php die(); /*';
@@ -127,10 +127,12 @@ class HDDenProtectedConfig{
             $data = json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
         } else {
             // autotest, is string json
-            if ($this->is_JSON($data)){
+            if (!($this->is_JSON($data))){
                 $data = json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
             }
         }
+
+        if (!is_string($data)) $data = json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
 
         // add heading
         $data = $this->fileStart.PHP_EOL.$data;
@@ -160,6 +162,7 @@ class HDDenProtectedConfig{
      * Check, if string is correct json
      */
     private function is_JSON($str) {
+        if (!is_string($str)) return false;
         json_decode($str);
         return (json_last_error()===JSON_ERROR_NONE);
     }
