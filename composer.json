@@ -1,0 +1,20 @@
+{
+  "name": "hdden/hdden-protected-config",
+  "description": "Read/write protected PHP-container config files",
+  "type": "library",
+  "license": "MIT",
+  "autoload": {
+    "psr-4": {
+      "HDDen\\ProtectedConfig\\": "src/"
+    }
+  },
+  "require": {
+    "php": ">=7.0"
+  },
+  "authors": [
+    {
+      "name": "HDDen",
+      "email": "me@hdden.ru"
+    }
+  ]
+}
